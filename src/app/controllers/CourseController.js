@@ -34,6 +34,24 @@ class CourseController {
             return res.status(400).send({ error });
         }
     }
+
+    // [PUT] : /courses/:id
+    update = async (req, res, next) => {
+        const _id = req.params.id;
+        try {
+            await Course.updateOne({ _id: _id }, req.body)
+            res.redirect("/me/stored/courses");
+        }catch (error) {
+            return res.status(400).send({ error });
+        }
+    }
+
+    // [GET] :  /courses/:id/edit
+    edit = async (req, res, next) => {
+        Course.findById(req.params.id)
+        .then(course => res.render("course/edit", {course: mongooseToObject(course)}))
+        .catch(next)
+    }
 }
 
-module.exports = new CourseController;
+module.exports = new CourseController();
