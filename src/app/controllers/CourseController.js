@@ -4,7 +4,7 @@ const { mongooseToObject } = require("../../utils/mongoose");
 
 class CourseController {
 
-    // Method: GET || url:/:slug ||
+    // [GET]: /:slug
     detail =  async (req, res) => {
         try {
             const newCourse = await Course.findOne({ slug: req.params.slug });
@@ -17,12 +17,12 @@ class CourseController {
         }
     }
 
-    // CREATE: GET
+    // [GET]: /course/create
     create = async (req, res) => {
         res.render("course/create");
     }
 
-    // /courses/store
+    // [POST]: /courses/store
     store = async (req, res) => {
         try {
             let formData = req.body;
@@ -49,8 +49,16 @@ class CourseController {
     // [GET] :  /courses/:id/edit
     edit = async (req, res, next) => {
         Course.findById(req.params.id)
-        .then(course => res.render("course/edit", {course: mongooseToObject(course)}))
-        .catch(next)
+            .then(course => res.render("course/edit", {course: mongooseToObject(course)}))
+            .catch(next)
+    }
+
+    // [DELETE]: /courses/:id
+    destroy = async (req, res, next) => {
+        const _id = req.params.id;
+        Course.delete({ _id: _id })
+            .then((_) => res.redirect("/me/stored/courses"))
+            .catch(next)
     }
 }
 

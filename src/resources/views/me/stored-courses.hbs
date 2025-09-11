@@ -2,6 +2,10 @@
     <div class="row">
         <div class="col-md-12">
             <h2> Khóa học của tôi </h2>
+            <div class="d-flex justify-content-between mb-2">
+                <a class="btn btn-link" href="/me/trash/courses">Thùng rác của bạn</a>
+                <a class="btn btn-primary" href="/courses/create">Thêm khóa học</a>
+            </div>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -23,14 +27,71 @@
                             <a class="btn btn-link" href="/courses/{{this._id}}/edit">
                                 Sửa
                             </a>
-                            <a class="btn btn-link" href="/courses/{{this._id}}/edit">
+                            <a class="btn btn-link" href="" data-toggle="modal" data-target="#confirm-delete" data-id="{{this._id}}">
                                 Xóa
                             </a>
                         </td>
                     </tr>
+                {{else}}
+                <tr>
+                    <td colspan="5" class="text-center">
+                        Bạn chưa đăng kí khóa học nào
+                        <a class="btn btn-link" href="/">Đăng kí khóa học</a>
+                    </td>
+                </tr>
                 {{/each}}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<!-- Confirm delete course -->
+<div class="modal" tabindex="-1" id="confirm-delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận xóa khóa học</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Bạn muốn xóa khóa học chứ ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-delete-course" class="btn btn-danger" >Xác nhận</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy bỏ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Delete hidden form-->
+<form method="POST" id="form-delete-course">
+
+</form>
+<!-- Dữ liệu truyền từ form lên-->
+<script>
+    // Khi dialog confirm show
+    document.addEventListener('DOMContentLoaded', (e) => {
+        let id;
+        const btnDelete = document.getElementById("btn-delete-course")
+        const formDelete = document.getElementById("form-delete-course")
+
+        $('#confirm-delete').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget)
+            id = button.data('id')
+        })
+
+
+        btnDelete.onclick = function () {
+            formDelete.action = `/courses/${id}?_method=DELETE`;
+            formDelete.submit()
+        }
+
+
+    })
+</script>

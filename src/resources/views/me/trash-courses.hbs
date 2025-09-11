@@ -1,0 +1,43 @@
+<div class="mt-4 container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2> Khóa học đã xóa </h2>
+            <a href="/me/stored/courses" class="btn btn-link">Danh sách khóa học</a>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tên khóa học</th>
+                    <th scope="col">Mô tả</th>
+                    <th scope="col">Thời gian tạo</th>
+                    <th scope="col">Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each courses}}
+                    <tr>
+                        <th scope="row">{{sum @index 1}}</th>
+                        <td>{{this.name}}</td>
+                        <td>{{this.desc}}</td>
+                        <td>{{this.createdAt}}</td>
+                        <td class="d-flex">
+                            <a class="btn btn-link" href="/courses/{{this._id}}/edit">
+                                Khôi phục
+                            </a>
+                            <a class="btn btn-link" href="" data-toggle="modal" data-target="#confirm-delete" data-id="{{this._id}}">
+                                Xóa vĩnh viễn
+                            </a>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="5" class="text-center">Danh sách trống
+                            <a class="btn btn-link" href="/">Đăng kí khóa học</a>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
