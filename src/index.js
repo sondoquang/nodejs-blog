@@ -5,8 +5,11 @@ const path = require('path')
 
 const app = express()
 const port = 3000
+const route = require('./routes')
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
 
 // http logger
 app.use(morgan('combined'))
@@ -18,15 +21,9 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'resources\\views'));
 
-// routes
-app.get('/', (req, res) => {
-  res.render('home')
-})
-
-app.get('/new', (req, res) => {
-  res.render('new')
-})
+// ROUTE INIT
+route(app);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 })
