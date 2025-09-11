@@ -1,0 +1,14 @@
+<div class="mt-4 container">
+    <div class="row">
+        <div class="col-md-2">
+            <button class="btn btn-info"> Học ngay</button>
+        </div>
+        <div class="col-md-10">
+            <h2>{{course.name}}</h2>
+            <div style="overflow-x: auto;">
+                <iframe src="https://www.youtube.com/embed/{{course.videoId}}" width="100%" height="400" frameborder="0"></iframe>
+            </div>
+            <p>{{course.desc}}</p>
+        </div>
+    </div>
+</div>

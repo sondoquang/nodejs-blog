@@ -1,6 +1,25 @@
 @import "variables";
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Be Vietnam Pro", sans-serif;
   font-style: normal;
+}
+
+.nav-link:hover {
+  color: #00bae0 !important;
+  transition: color 0.2s ease;
+}
+
+.custom-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Số dòng muốn hiển thị */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
