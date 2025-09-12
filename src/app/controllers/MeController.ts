@@ -22,10 +22,35 @@ class MeController {
 
     // [GET] /me/trash/courses
     trash (req: Request, res: Response, next: NextFunction) {
-        Course.findDeleted({})
+        Course.findDeleted({deleted: true})
             .then((courses: ICourse[]) => res.render("me/trash-courses", {
-                courses: multipleMongooseToObject<ICourse>(courses),}
+                courses: multipleMongooseToObject<ICourse>(courses)
+                    .map((course: ICourse) => {
+                        return {
+                            ...course,
+                            deletedAt: convertDate(course.deletedAt || '', "DD-MM-YYYY HH:mm:ss")
+                        }
+                    })
+            }
             ))
+            .catch(next)
+    }
+
+    // [PUT]: /me/courses/:id/restore
+    restore (req: Request, res: Response, next: NextFunction) {
+        Course.restore({_id: req.params.id})
+        .then(() => {
+            res.redirect("/me/stored/courses");
+        })
+        .catch(next)
+    }
+
+    // [DELETE] /me/courses/:id
+    remove (req: Request, res: Response, next: NextFunction) {
+        Course.deleteOne({_id: req.params.id})
+            .then(() => {
+                res.redirect("/me/stored/courses");
+            })
             .catch(next)
     }
 }

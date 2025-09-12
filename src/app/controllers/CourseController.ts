@@ -54,7 +54,9 @@ class CourseController {
     // [GET] :  /courses/:id/edit
     edit = async (req: Request<IdParams>, res: Response, next: NextFunction) => {
         Course.findById(req.params.id)
-            .then((course: ICourse) => res.render("course/edit", {course: mongooseToObject<ICourse>(course)}))
+            .then((course: any) => {
+                res.render("course/edit", {course: mongooseToObject<ICourse>(course)});
+            })
             .catch(next)
     }
 

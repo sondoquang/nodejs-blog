@@ -28,7 +28,7 @@ const CourseSchema = new Schema<ICourse>({
     timestamps: true
 });
 
-CourseSchema.plugin(mongooseDelete, { overrideMethods: 'all', deletedAt: true });
+CourseSchema.plugin(mongooseDelete, { overrideMethods: 'all', deletedAt: true , validateBeforeRestore: true});
 type CourseModelType = SoftDeleteModel<ICourse>;
 const Course = (mongoose.models.Course as CourseModelType) ||
     mongoose.model<ICourse, CourseModelType>("Course", CourseSchema);
