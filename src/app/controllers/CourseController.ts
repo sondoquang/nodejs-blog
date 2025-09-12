@@ -1,11 +1,16 @@
-const Course = require("../models/course");
-const { mongooseToObject } = require("../../utils/mongoose");
+import {NextFunction, Request, Response} from "express";
+import Course, {ICourse} from "../models/Course";
+import { mongooseToObject } from "../../utils/mongoose";
+import { CourseCreateBody } from "../type/Course";
 
+
+type SlugParams = { slug: string };
+type IdParams = { id: string };
 
 class CourseController {
 
     // [GET]: /:slug
-    detail =  async (req, res) => {
+    detail =  async (req: Request<SlugParams>, res: Response) => {
         try {
             const newCourse = await Course.findOne({ slug: req.params.slug });
             if (!newCourse) {
@@ -18,14 +23,14 @@ class CourseController {
     }
 
     // [GET]: /course/create
-    create = async (req, res) => {
+    create = async (req: Request, res: Response) => {
         res.render("course/create");
     }
 
     // [POST]: /courses/store
-    store = async (req, res) => {
+    store = async (req: Request<unknown, unknown, CourseCreateBody>, res: Response) => {
         try {
-            let formData = req.body;
+            let formData = {... req.body };
             formData.img = `https://i.ytimg.com/vi/${formData.videoId}/hqdefault.jpg`;
             const newCourse = new Course(formData);
             await newCourse.save();
@@ -36,7 +41,7 @@ class CourseController {
     }
 
     // [PUT] : /courses/:id
-    update = async (req, res, next) => {
+    update = async (req: Request<IdParams, unknown, CourseCreateBody >, res: Response) => {
         const _id = req.params.id;
         try {
             await Course.updateOne({ _id: _id }, req.body)
@@ -47,19 +52,19 @@ class CourseController {
     }
 
     // [GET] :  /courses/:id/edit
-    edit = async (req, res, next) => {
+    edit = async (req: Request<IdParams>, res: Response, next: NextFunction) => {
         Course.findById(req.params.id)
-            .then(course => res.render("course/edit", {course: mongooseToObject(course)}))
+            .then((course: ICourse) => res.render("course/edit", {course: mongooseToObject<ICourse>(course)}))
             .catch(next)
     }
 
     // [DELETE]: /courses/:id
-    destroy = async (req, res, next) => {
+    destroy = async (req: Request<IdParams>, res:Response, next:NextFunction) => {
         const _id = req.params.id;
         Course.delete({ _id: _id })
-            .then((_) => res.redirect("/me/stored/courses"))
+            .then(() => res.redirect("/me/stored/courses"))
             .catch(next)
     }
 }
 
-module.exports = new CourseController();
+export default new CourseController();

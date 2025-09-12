@@ -1,14 +1,14 @@
-const express = require('express');
-const morgan = require('morgan');
-const {engine} = require('express-handlebars');
-const methodOverride = require('method-override');
-const path = require('path');
+import express from "express";
+import morgan from "morgan";
+import methodOverride from "method-override";
+import { engine } from "express-handlebars";
+import path from "path";
 
-const route = require('./routes');
-const db = require('./config/db');
+import route from "./routes";
+import { connect } from "./config/db";
 
 // connect db
-db.connect().then(r => {
+connect().then(r => {
     console.log('Connected to database successfully.');
 });
 
@@ -29,7 +29,7 @@ app.use(morgan('combined'))
 app.engine('hbs', engine({
   extname: '.hbs',
   helpers: {
-      sum: (a, b) => a + b
+      sum: (a: number, b: number) : number => a + b
   }
 }))
 app.set('view engine', 'hbs')

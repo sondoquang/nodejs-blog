@@ -1,3 +1,6 @@
 {
-  "ext": "js json"
+  "watch": ["src"],
+  "ext": "ts,tsx,json,hbs",
+  "ignore": ["dist"],
+  "exec": "ts-node src/index.ts"
 }

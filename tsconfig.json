@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    /* Output */
+    "outDir": "./dist",
+    "rootDir": "./src",
+
+    /* Module resolution */
+    "module": "commonjs",
+    "target": "es2020",
+    "moduleResolution": "node",
+
+    /* Allow default import từ CommonJS (fix import express) */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* Strict type-checking */
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    /* Debugging */
+    "sourceMap": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
